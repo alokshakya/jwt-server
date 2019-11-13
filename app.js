@@ -27,14 +27,14 @@ app.use('/users', usersRouter);
 const mongoose = require('mongoose');
 const config = require('./config');
 const mongoUrl = config.mongoUrl;
-const connect = await mongoose.connect(mongoUrl,{
+const connect = mongoose.connect(mongoUrl,{
   useNewUrlParser:true,
   useUnifiedTopology:true
 });
 
 connect.then( (db) => {
-  Console.log('Connected correctly to mongoDB database');
-}, (err) => { Console.log(err)});
+  console.log('Connected correctly to mongoDB database');
+}, (err) => { console.log(err)});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
