@@ -13,6 +13,17 @@ exports.local = passport.use(new LocalStrategy(User.authenticate()));
 // passport.serializeUser(User.serializeUser());
 // passport.deserializeUser(User.deserializeUser());
 
+// exports.local = passport.use(new LocalStrategy(
+//     function(username, password, done) {
+//       User.findOne({ username: username }, function (err, user) {
+//         if (err) { return done(err); }
+//         if (!user) { return done(null, false); }
+//         // if (!user.verifyPassword(password)) { return done(null, false); } this line checks for pass
+//         return done(null, user);
+//       });
+//     }
+//   ));
+
 exports.getToken = function(user) {
     return jwt.sign(user, config.secretKey,
         {expiresIn: 3600});
@@ -41,13 +52,18 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 exports.verifyUser = passport.authenticate('jwt', {session: false});
 
 exports.verifyAdmin = function(req,res, next){
+    console.log('verify admin req.user.admin : '+req.user.admin);
+    //console.log(req);
     if(req.user.admin){
         return next();
     }
     else{
         var err = new Error('You are not authorized to perform this operation!');
-        err.statusCode= 403;
-        return next(err);
+        //console.log('err object');
+        //console.log(err);
+        res.statusCode= 403;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({err: 'You are not authorized to perform this operation!'}); 
     }
 }
 
