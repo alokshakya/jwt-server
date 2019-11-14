@@ -1,4 +1,5 @@
 var express = require('express');
+const bodyParser = require('body-parser');
 var User = require('../models/userSchema');
 var passport = require('passport');
 var authenticate = require('../authenticate');
@@ -7,7 +8,7 @@ var router = express.Router();
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req, res, next) {
+router.get('/', authenticate.verifyUser, authenticate.verifyAdmin,function(req, res, next) {
   User.find({})
     .then((users) => {
         res.statusCode = 200;
@@ -19,6 +20,8 @@ router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req,
 
 
 router.post('/signup', function( req, res, next){
+  //console.log('username from request : '+req.body.username);
+  //console.log('password from request : '+req.body.password);
   User.register( new User({username: req.body.username}),
    req.body.password, (err,user) =>{
     if(err){
@@ -49,7 +52,7 @@ router.post('/signup', function( req, res, next){
   });
 });
 
-router.post('/login', passport.authenticate('local'), (req,
+router.post('/login', passport.authenticate('local',{session:false}), (req,
    res, next) => {
   
   var token = authenticate.getToken({_id: req.user._id});
