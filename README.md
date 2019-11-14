@@ -1,9 +1,8 @@
 # jwt-server
 
 ## Simple Node JS APP with JWT authentication
-### Packages Used: passport passport-local passport-local-mongoose passport-jwt jsonwebtoken
 
-##### passport passport-jwt passport-local-mongoose passport-local Authentication
+### Packages Used: passport passport-local passport-local-mongoose passport-jwt jsonwebtoken
 
 ## Procedure of building project
 
@@ -272,6 +271,8 @@ router.post('/login', (req, res, next) => {
 module.exports = router;
 
 ```
+
+15. Now run command `npm start` it will run our server and we can test the APIs using postman.
 
 
 
