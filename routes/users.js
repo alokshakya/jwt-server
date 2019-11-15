@@ -119,4 +119,47 @@ router.post('/login', (req, res, next) => {
 });
 
 
+router.post('/change-password', authenticate.verifyUser, (req,res, next) => {
+  User.findById(req.user._id, (err,user) => {
+    if(err){
+      console.log('err1');
+      next(err);
+    }
+    if(user){
+      user.changePassword(req.body.oldPassword,req.body.newPassword, (err,thisModel,passwordErr) => {
+        if(err){
+          console.log('err object :');
+          console.log(err);
+          res.statusCode = 500;
+          res.setHeader('Content-Type','application/json');
+          res.json({  err: {name:err.name,message:err.message}});
+        }
+        if(passwordErr){
+          console.log('passErr object :');
+          console.log(passErr);
+          res.statusCode = 500;
+          res.setHeader('Content-Type','application/json');
+          res.json({  err: passErr});
+          return;
+        }
+        if(thisModel){
+          user.save( (err,user) => {
+            if(err){
+              console.log('err3');
+              next(err);
+            }
+            if(user){
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'application/json');
+              res.json({success: true, status : 'Password Changed Successfully!'});
+            }
+          })
+        }
+      })
+    }
+  });
+    
+});
+
+
 module.exports = router;
