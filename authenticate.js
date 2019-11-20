@@ -25,7 +25,7 @@ exports.local = passport.use(new LocalStrategy(User.authenticate()));
 //   ));
 
 exports.getToken = function(user) {
-    return jwt.sign(user, config.secretKey,
+    return jwt.sign(user, config.secretKey,                    
         {expiresIn: 3600});
 };
 
@@ -41,7 +41,8 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
                 return done(err, false);
             }
             else if (user) {
-                return done(null, user);
+                //console.log('uploading only user id. part .')
+                return done(null, user); // this line will include user object in req.user
             }
             else {
                 return done(null, false);
@@ -53,7 +54,7 @@ exports.verifyUser = passport.authenticate('jwt', {session: false});
 
 exports.verifyAdmin = function(req,res, next){
     console.log('verify admin req.user.admin : '+req.user.admin);
-    //console.log(req);
+    console.log(req);
     if(req.user.admin){
         return next();
     }
