@@ -274,6 +274,8 @@ module.exports = router;
 
 15. Now run command `npm start` it will run our server and we can test the APIs using postman.
 
+16. For removing deep dependencies vulnerabilities uninstalled `jade` using `npm uninstall jade --save` which was using them internally. Jade is view engine which renders jade files into html. For achieving this functionality changed index router to serve `index.html` file instead of rendering `index.jade` from views. Created `index.html` and served it from index router using `res.sendFile()` function.
+
 
 
 
