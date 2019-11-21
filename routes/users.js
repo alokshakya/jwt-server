@@ -20,8 +20,6 @@ router.get('/', authenticate.verifyUser, authenticate.verifyAdmin,function(req, 
 
 
 router.post('/signup', function( req, res, next){
-  //console.log('username from request : '+req.body.username);
-  //console.log('password from request : '+req.body.password);
   User.register( new User({username: req.body.username}),
    req.body.password, (err,user) =>{
     if(err){
@@ -112,10 +110,7 @@ router.post('/login', (req, res, next) => {
      })
    }
  })
-//  var token = authenticate.getToken({_id: req.user._id});
-//  res.statusCode = 200;
-//  res.setHeader('Content-Type', 'application/json');
-//  res.json({success: true, token: token, status : 'You are Successfully logged in!'});   
+
 });
 
 
