@@ -33,7 +33,8 @@ const config = require('./config');
 const mongoUrl = config.mongoUrl;
 const connect = mongoose.connect(mongoUrl,{
   useNewUrlParser:true,
-  useUnifiedTopology:true
+  useUnifiedTopology:true,
+  useCreateIndex:true
 });
 
 connect.then( (db) => {
